@@ -3,11 +3,19 @@ const express = require('express')
 const app = express()
 const PORT = 3000;
 
-app.get('/', (req, res) => {
-    res.send({
+const friends = [
+    {
         id: 1,
         name: "Mpodol Um Nyobe"
-    })
+    },
+    {
+        id: 2,
+        name: "Ernest Ouandie"
+    }
+]
+
+app.get('/friends', (req, res) => {
+    res.json(friends)
 })
 
 app.get('/messages', (req, res) => {

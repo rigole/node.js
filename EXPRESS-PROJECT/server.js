@@ -16,7 +16,12 @@ const friends = [
         id: 2,
         name: "Rudoplh Douala Manga Bell"
     }
-]
+];
+
+app.use((req, res, next) =>{
+    console.log(`${req.method} ${req.url}`)
+    next()
+})
 
 app.get('/friends', (req, res) => {
     res.json(friends)

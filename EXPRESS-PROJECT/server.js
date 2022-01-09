@@ -6,20 +6,7 @@ const {getOneFriend} = require("./controllers/friends.controllers");
 const app = express()
 const PORT = 3000;
 
-const friends = [
-    {
-        id: 0,
-        name: "Mpodol Um Nyobe"
-    },
-    {
-        id: 1,
-        name: "Ernest Ouandie"
-    },
-    {
-        id: 2,
-        name: "Rudoplh Douala Manga Bell"
-    }
-];
+
 
 app.use((req, res, next) =>{
     const start = Date.now();

@@ -1,4 +1,5 @@
 const express = require('express')
+const messageController = require('./controllers/messages.controllers')
 
 const app = express()
 const PORT = 3000;
@@ -63,8 +64,8 @@ app.get('/friends/:friendId', (req, res) => {
 
 })
 
-app.get('/messages', )
-app.post('/messages',)
+app.get('/messages',  messageController.getMessages )
+app.post('/messages', messageController.postMessages)
 
 app.listen(PORT, () => {
     console.log(`Listening on ${PORT}...`)

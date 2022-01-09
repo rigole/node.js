@@ -31,7 +31,7 @@ app.use(express.json())
 app.post('/friends', (req, res) => {
 
         if (!req.body.name){
-            res.status(400).json({
+            return res.status(400).json({
                 error: 'Missing friend name'
             });
         }
@@ -63,13 +63,8 @@ app.get('/friends/:friendId', (req, res) => {
 
 })
 
-app.get('/messages', (req, res) => {
-    res.send('<ul><li>Hello Albert</li></ul>' )
-})
-
-/*app.post('/messages', ((req, res) => {
-    console.log("Updating Messages...")
-}))*/
+app.get('/messages', )
+app.post('/messages',)
 
 app.listen(PORT, () => {
     console.log(`Listening on ${PORT}...`)

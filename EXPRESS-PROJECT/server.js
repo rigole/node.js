@@ -18,11 +18,14 @@ app.use((req, res, next) =>{
 
 app.use(express.json())
 
-app.post('/friends', friendController.postFriend)
+const friendsRouter = express.Router()
 
-app.get('/friends', friendController.getFriends)
 
-app.get('/friends/:friendId', getOneFriend)
+friendsRouter.post('/friends', friendController.postFriend)
+friendsRouter.get('/friends', friendController.getFriends)
+friendsRouter.get('/friends/:friendId', getOneFriend)
+
+app.use('/friends', friendsRouter)
 
 app.get('/messages',  messageController.getMessages )
 app.post('/messages', messageController.postMessages)

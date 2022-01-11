@@ -5,18 +5,10 @@ const app = express()
 const PORT = 3000;
 
 const friendsRouter =  require('./routes/friends.router')
-const messageController = require("./controllers/messages.controllers");
-
-
-//const {getOneFriend} = require("./controllers/friends.controllers");*/
-
-
+const messageController = require("./routes/messages.router");
 
 app.use(express.json())
 
-
-app.get('/messages',  messageController.getMessages )
-app.post('/messages', messageController.postMessages)
 
 app.use((req, res, next) =>{
     const start = Date.now();
@@ -32,6 +24,7 @@ app.use(express.json())
 
 
 app.use('/friends', friendsRouter)
+app.use('/messages', messageController)
 
 
 app.listen(PORT, () => {

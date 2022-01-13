@@ -18,6 +18,7 @@ app.use((req, res, next) =>{
     console.log(`${req.method} ${req.url} ${delta}ms`)
 })
 
+app.use(express.static('public'))
 app.use(express.json())
 
 

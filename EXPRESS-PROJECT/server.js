@@ -2,6 +2,9 @@ const express = require("express");
 const path = require('path')
 
 const app = express()
+
+app.set('view engine','hbs')
+app.set('views', path.join(__dirname, 'views'))
 const PORT = 3000;
 
 const friendsRouter =  require('./routes/friends.router')
@@ -24,7 +27,12 @@ app.use(express.json())
 
 
 
-
+app.get('/', (req, res) =>{
+    res.render('index', {
+        title: 'My Fellow Cameroonians love their country',
+        caption:'Let\'s go to Cameroon',
+    })
+})
 app.use('/friends', friendsRouter)
 app.use('/messages', messageController)
 

@@ -37,6 +37,6 @@ app.use('/friends', friendsRouter)
 app.use('/messages', messageController)
 
 
-app.listen(PORT, () => {
+app. listen(PORT, () => {
     console.log(`Listening on ${PORT}...`)
 })

@@ -54,9 +54,20 @@ function verifyCallback(accessToken, refreshToken, profile, done){
 
 passport.use(new Strategy(AUTH_OPTIONS, verifyCallback))
 
+app.get('/auth/google',
+    passport.authenticate('google', {
+        scope: ['email'],
+    }));
 
-app.get('/auth/google',(req, res) => {})
-app.get('/auth/google/callback', (req, res) => {})
+app.get('/auth/google/callback',
+    passport.authenticate('google',{
+    failureRedirect: '/failure',
+    successRedirect: '/',
+    session: false,
+}), (req, res) => {
+    console.log("Google called us back!")
+})
+
 app.get('/auth/logout', (req, res) => {})
 
 app.get('/secret',checkLoggedIn, (req, res) => {

@@ -4,6 +4,7 @@ const https = require('https')
 const helmet = require('helmet')
 const express = require("express")
 const passport = require("passport")
+const cookieSession = require('cookie-session')
 const { Strategy } = require("passport-google-oauth20")
 const PORT = 3000;
 
@@ -13,12 +14,33 @@ const app = express();
 require('dotenv').config();
 app.use(helmet())
 
-app.use(passport.initialize())
-
 const config = {
     CLIENT_ID: process.env.CLIENT_ID,
-    CLIENT_SECRET: process.env.CLIENT_SECRET
+    CLIENT_SECRET: process.env.CLIENT_SECRET,
+    COOKIE_KEY_1: process.env.COOKIE_KEY_1,
+    COOKIE_KEY_2: process.env.COOKIE_KEY_2
 }
+
+app.use(cookieSession({
+    name: 'session',
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [ config.COOKIE_KEY_1, config.COOKIE_KEY_2 ],
+}));
+
+app.use(passport.initialize())
+
+function checkLoggedIn (req, res, next) {
+    const isLoggedIn = true;
+    if(isLoggedIn) {
+        return res.status(401).json({
+            error: "You must log in!"
+        });
+    }
+    next();
+}
+
+
+
 
 const AUTH_OPTIONS = {
     callbackURL: "/auth/google/callback",
@@ -32,18 +54,20 @@ function verifyCallback(accessToken, refreshToken, profile, done){
 
 passport.use(new Strategy(AUTH_OPTIONS, verifyCallback))
 
-function checkLoggedIn (req, res, next) {
-    const isLoggedIn = true;
-    if(isLoggedIn) {
-        return res.status(401).json({
-            error: "You must log in!"
-        });
-    }
-    next();
-}
+app.get('/auth/google',
+    passport.authenticate('google', {
+        scope: ['email'],
+    }));
 
-app.get('/auth/google',(req, res) => {})
-app.get('/auth/google/callback', (req, res) => {})
+app.get('/auth/google/callback',
+    passport.authenticate('google',{
+    failureRedirect: '/failure',
+    successRedirect: '/',
+    session: false,
+}), (req, res) => {
+    console.log("Google called us back!")
+})
+
 app.get('/auth/logout', (req, res) => {})
 
 app.get('/secret',checkLoggedIn, (req, res) => {
